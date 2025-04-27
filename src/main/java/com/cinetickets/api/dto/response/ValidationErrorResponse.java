@@ -20,4 +20,12 @@ public class ValidationErrorResponse {
     
     @Builder.Default
     private LocalDateTime timestamp = LocalDateTime.now();
+    
+    // Constructor utilizado en GlobalExceptionHandler
+    public ValidationErrorResponse(int status, String message, Map<String, String> errors) {
+        this.status = status;
+        this.message = message;
+        this.errors = errors;
+        this.timestamp = LocalDateTime.now();
+    }
 }

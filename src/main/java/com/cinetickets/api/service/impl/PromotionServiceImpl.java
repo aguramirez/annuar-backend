@@ -2,9 +2,11 @@ package com.cinetickets.api.service.impl;
 
 import com.cinetickets.api.dto.request.PromotionRequest;
 import com.cinetickets.api.dto.response.PromotionResponse;
+import com.cinetickets.api.entity.Cinema;
 import com.cinetickets.api.entity.Promotion;
 import com.cinetickets.api.exception.InvalidPromotionException;
 import com.cinetickets.api.exception.ResourceNotFoundException;
+import com.cinetickets.api.repository.CinemaRepository;
 import com.cinetickets.api.repository.PromotionRepository;
 import com.cinetickets.api.service.PromotionService;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +27,7 @@ import java.util.stream.Collectors;
 public class PromotionServiceImpl implements PromotionService {
 
     private final PromotionRepository promotionRepository;
+    private final CinemaRepository cinemaRepository;
 
     @Override
     @Transactional(readOnly = true)
@@ -40,6 +43,10 @@ public class PromotionServiceImpl implements PromotionService {
     @Override
     @Transactional
     public UUID createPromotion(PromotionRequest promotionRequest) {
+        // Validar que exista el cine
+        Cinema cinema = cinemaRepository.findById(promotionRequest.getCinemaId())
+                .orElseThrow(() -> new ResourceNotFoundException("Cinema", "id", promotionRequest.getCinemaId()));
+        
         // Validar código único si se proporciona
         if (promotionRequest.getCode() != null && !promotionRequest.getCode().isEmpty()) {
             if (promotionRepository.existsByCode(promotionRequest.getCode())) {
@@ -49,7 +56,7 @@ public class PromotionServiceImpl implements PromotionService {
         
         Promotion promotion = Promotion.builder()
                 .id(UUID.randomUUID())
-                .cinemaId(promotionRequest.getCinemaId())
+                .cinema(cinema)
                 .name(promotionRequest.getName())
                 .description(promotionRequest.getDescription())
                 .discountType(Promotion.DiscountType.valueOf(promotionRequest.getDiscountType()))
@@ -77,6 +84,10 @@ public class PromotionServiceImpl implements PromotionService {
         Promotion promotion = promotionRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Promotion", "id", id));
         
+        // Validar que exista el cine
+        Cinema cinema = cinemaRepository.findById(promotionRequest.getCinemaId())
+                .orElseThrow(() -> new ResourceNotFoundException("Cinema", "id", promotionRequest.getCinemaId()));
+        
         // Validar código único si se modifica
         if (promotionRequest.getCode() != null && !promotionRequest.getCode().isEmpty() 
                 && !promotionRequest.getCode().equals(promotion.getCode())) {
@@ -85,6 +96,7 @@ public class PromotionServiceImpl implements PromotionService {
             }
         }
         
+        promotion.setCinema(cinema);
         promotion.setName(promotionRequest.getName());
         promotion.setDescription(promotionRequest.getDescription());
         promotion.setDiscountType(Promotion.DiscountType.valueOf(promotionRequest.getDiscountType()));
@@ -221,7 +233,7 @@ public class PromotionServiceImpl implements PromotionService {
     private PromotionResponse mapToPromotionResponse(Promotion promotion) {
         return PromotionResponse.builder()
                 .id(promotion.getId())
-                .cinemaId(promotion.getCinemaId())
+                .cinemaId(promotion.getCinema().getId())
                 .name(promotion.getName())
                 .description(promotion.getDescription())
                 .discountType(promotion.getDiscountType().name())

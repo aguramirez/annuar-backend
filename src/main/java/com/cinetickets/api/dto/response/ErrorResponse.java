@@ -19,4 +19,12 @@ public class ErrorResponse {
     
     @Builder.Default
     private LocalDateTime timestamp = LocalDateTime.now();
+    
+    // Constructor utilizado en GlobalExceptionHandler
+    public ErrorResponse(int status, String message, String path) {
+        this.status = status;
+        this.message = message;
+        this.path = path;
+        this.timestamp = LocalDateTime.now();
+    }
 }

@@ -26,6 +26,8 @@ public interface OrderRepository extends JpaRepository<Order, UUID> {
     
     Optional<Order> findByQrCode(String qrCode);
     
+    Optional<Order> findByPaymentReference(String paymentReference);
+    
     @Query("SELECT o FROM Order o WHERE o.reservation.show.room.cinema.id = :cinemaId " +
            "AND o.createdAt BETWEEN :startDate AND :endDate AND o.status = 'COMPLETED'")
     List<Order> findCompletedOrdersByCinemaAndDateRange(UUID cinemaId, ZonedDateTime startDate, ZonedDateTime endDate);

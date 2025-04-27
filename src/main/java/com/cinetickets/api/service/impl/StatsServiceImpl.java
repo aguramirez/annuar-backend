@@ -3,7 +3,6 @@ package com.cinetickets.api.service.impl;
 import com.cinetickets.api.dto.response.*;
 import com.cinetickets.api.entity.Order;
 import com.cinetickets.api.entity.OrderItem;
-import com.cinetickets.api.entity.Reservation;
 import com.cinetickets.api.repository.*;
 import com.cinetickets.api.service.StatsService;
 import lombok.RequiredArgsConstructor;
@@ -306,9 +305,3 @@ public class StatsServiceImpl implements StatsService {
         return result;
     }
 }
-            
-            Map<String, Object> data2 = new HashMap<>();
-            data2.put("date", "2023-04-01");
-            data2.put("movie", "The Lion King");
-            data2.put("tickets", 72);
-            data2.put("revenue", 8640.00);
