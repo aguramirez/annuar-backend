@@ -1,0 +1,79 @@
+# Configuración de la aplicación
+spring.application.name=cinetickets-api
+server.port=8080
+server.servlet.context-path=/api
+
+# Configuración de la base de datos
+spring.datasource.url=jdbc:postgresql://localhost:5432/cinetickets
+spring.datasource.username=postgres
+spring.datasource.password=postgres
+spring.datasource.driver-class-name=org.postgresql.Driver
+
+# Configuración de JPA
+spring.jpa.hibernate.ddl-auto=none
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+spring.jpa.properties.hibernate.format_sql=true
+spring.jpa.show-sql=true
+
+# Configuración de Liquibase
+spring.liquibase.change-log=classpath:db/changelog/db.changelog-master.xml
+spring.liquibase.enabled=true
+
+# Configuración de Jackson
+spring.jackson.date-format=yyyy-MM-dd HH:mm:ss
+spring.jackson.time-zone=America/Argentina/Buenos_Aires
+spring.jackson.serialization.fail-on-empty-beans=false
+
+# Configuración de seguridad JWT
+app.jwt.secret=tu_clave_secreta_muy_larga_aqui_para_firma_de_tokens_jwt
+app.jwt.expiration=86400000
+app.jwt.issuer=CineTickets
+
+# Configuración de OAuth2
+spring.security.oauth2.client.registration.google.client-id=tu-client-id-google
+spring.security.oauth2.client.registration.google.client-secret=tu-client-secret-google
+spring.security.oauth2.client.registration.google.scope=email,profile
+
+spring.security.oauth2.client.registration.facebook.client-id=tu-client-id-facebook
+spring.security.oauth2.client.registration.facebook.client-secret=tu-client-secret-facebook
+spring.security.oauth2.client.registration.facebook.scope=email,public_profile
+
+# Configuración de Email
+spring.mail.host=smtp.gmail.com
+spring.mail.port=587
+spring.mail.username=tu-email@gmail.com
+spring.mail.password=tu-password-app
+spring.mail.properties.mail.smtp.auth=true
+spring.mail.properties.mail.smtp.starttls.enable=true
+
+# Configuración de MercadoPago
+mercadopago.access-token=tu-access-token-mercadopago
+
+# Configuración de AWS S3
+aws.s3.region=sa-east-1
+aws.s3.bucket-name=cinetickets-files
+
+# Configuración de actuator
+management.endpoints.web.exposure.include=health,info,metrics
+management.endpoint.health.show-details=when_authorized
+
+# Configuración de Springdoc OpenAPI
+springdoc.api-docs.path=/api-docs
+springdoc.swagger-ui.path=/swagger-ui.html
+springdoc.swagger-ui.operationsSorter=method
+
+# Configuración de logging
+logging.level.root=INFO
+logging.level.com.cinetickets=DEBUG
+logging.level.org.hibernate.SQL=DEBUG
+logging.level.org.hibernate.type.descriptor.sql.BasicBinder=TRACE
+
+# Configuración de reservas
+app.reservation.expiration-minutes=15
+
+# Configuración de carga de archivos
+spring.servlet.multipart.max-file-size=10MB
+spring.servlet.multipart.max-request-size=10MB
+
+# Configuración de CORS
+app.cors.allowed-origins=http://localhost:3000
