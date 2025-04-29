@@ -9,6 +9,7 @@ import com.cinetickets.api.service.MovieService;
 import com.cinetickets.api.service.ShowService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,7 @@ import java.net.URI;
 import java.util.List;
 import java.util.UUID;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 public class MovieController {
@@ -31,18 +33,21 @@ public class MovieController {
 
     @GetMapping("/api/movies")
     public ResponseEntity<List<MovieResponse>> getAllMoviesCurrentlyShowing() {
+        log.debug("Fetching all movies currently showing");
         List<MovieResponse> movies = movieService.getAllCurrentlyShowing();
         return ResponseEntity.ok(movies);
     }
 
     @GetMapping("/api/movies/coming-soon")
     public ResponseEntity<List<MovieResponse>> getAllComingSoonMovies() {
+        log.debug("Fetching all coming soon movies");
         List<MovieResponse> movies = movieService.getAllComingSoon();
         return ResponseEntity.ok(movies);
     }
 
     @GetMapping("/api/movies/{id}")
     public ResponseEntity<MovieDetailResponse> getMovieById(@PathVariable UUID id) {
+        log.debug("Fetching movie details for id: {}", id);
         MovieDetailResponse movie = movieService.getMovieById(id);
         return ResponseEntity.ok(movie);
     }
@@ -53,6 +58,7 @@ public class MovieController {
             @RequestParam(required = false) UUID cinemaId,
             @RequestParam(required = false) String date) {
         
+        log.debug("Fetching shows for movie id: {}, cinema: {}, date: {}", id, cinemaId, date);
         List<ShowResponse> shows;
         if (cinemaId != null) {
             shows = showService.getShowsForMovieInCinema(id, cinemaId, date);
@@ -68,6 +74,7 @@ public class MovieController {
             @RequestParam String query,
             Pageable pageable) {
         
+        log.debug("Searching movies with query: {}", query);
         Page<MovieResponse> movies = movieService.searchMovies(query, pageable);
         return ResponseEntity.ok(movies);
     }
@@ -77,6 +84,7 @@ public class MovieController {
     @GetMapping("/api/admin/movies")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<Page<MovieResponse>> getAllMoviesAdmin(Pageable pageable) {
+        log.debug("Admin fetching all movies");
         Page<MovieResponse> movies = movieService.getAllMovies(pageable);
         return ResponseEntity.ok(movies);
     }
@@ -84,6 +92,7 @@ public class MovieController {
     @PostMapping("/api/admin/movies")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<ApiResponse> createMovie(@Valid @RequestBody MovieRequest movieRequest) {
+        log.debug("Admin creating new movie: {}", movieRequest.getTitle());
         UUID movieId = movieService.createMovie(movieRequest);
         
         URI location = ServletUriComponentsBuilder
@@ -100,6 +109,7 @@ public class MovieController {
             @PathVariable UUID id,
             @Valid @RequestBody MovieRequest movieRequest) {
         
+        log.debug("Admin updating movie id: {}", id);
         movieService.updateMovie(id, movieRequest);
         return ResponseEntity.ok(new ApiResponse(true, "Movie updated successfully"));
     }
@@ -107,6 +117,7 @@ public class MovieController {
     @DeleteMapping("/api/admin/movies/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<ApiResponse> deleteMovie(@PathVariable UUID id) {
+        log.debug("Admin deleting movie id: {}", id);
         movieService.deleteMovie(id);
         return ResponseEntity.ok(new ApiResponse(true, "Movie deleted successfully"));
     }
