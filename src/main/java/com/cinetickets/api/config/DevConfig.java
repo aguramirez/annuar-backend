@@ -21,11 +21,12 @@ public class DevConfig {
      * Registra el inicio del entorno de desarrollo.
      */
     @Bean
-    public void logDevEnvironment() {
+    public String logDevEnvironment() {
         log.info("==================================================");
         log.info("RUNNING IN DEVELOPMENT MODE");
         log.info("External services are mocked for local testing");
         log.info("==================================================");
+        return "yooy";
     }
 
     /**
@@ -34,7 +35,7 @@ public class DevConfig {
     @Bean
     @Primary
     @Profile({"dev", "test"})
-    public PaymentService mockPaymentService(MockPaymentService mockService) {
+    public PaymentService paymentServiceMock(MockPaymentService mockService) {
         log.info("Using MOCK Payment Service for development");
         return new PaymentService(null, null, null) {
             @Override
@@ -48,7 +49,7 @@ public class DevConfig {
             public void confirmPayment(String paymentId, String status) {
                 mockService.confirmPayment(paymentId, status);
             }
-            
+
             @Override
             public void refundPayment(java.util.UUID orderId) {
                 mockService.refundPayment(orderId);

@@ -10,7 +10,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
-import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
@@ -119,6 +118,13 @@ public class MockOAuth2UserService implements OAuth2UserService<OAuth2UserReques
             lastName = names.length > 1 ? names[1] : "";
         }
         
+        String providerId = null;
+        if (attributes.containsKey("id")) {
+            providerId = (String) attributes.get("id");
+        } else if (attributes.containsKey("sub")) {
+            providerId = (String) attributes.get("sub");
+        }
+        
         User user = User.builder()
                 .id(UUID.randomUUID())
                 .email(email)
@@ -128,7 +134,7 @@ public class MockOAuth2UserService implements OAuth2UserService<OAuth2UserReques
                 .role(User.UserRole.CUSTOMER)
                 .status(User.UserStatus.ACTIVE)
                 .authProvider(provider)
-                .authProviderId((String) attributes.get("id") || attributes.get("sub"))
+                .authProviderId(providerId)
                 .loyaltyPoints(0)
                 .marketingConsent(false)
                 .lastLogin(ZonedDateTime.now())

@@ -4,6 +4,8 @@ import com.cinetickets.api.security.jwt.JwtAuthenticationFilter;
 import com.cinetickets.api.security.oauth2.CustomOAuth2UserService;
 import com.cinetickets.api.security.oauth2.OAuth2AuthenticationSuccessHandler;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -28,6 +30,7 @@ import java.util.List;
 @EnableWebSecurity
 @EnableMethodSecurity
 @RequiredArgsConstructor
+@ConditionalOnProperty(name = "spring.profiles.active", havingValue = "prod", matchIfMissing = true)
 public class SecurityConfig {
 
     private final UserDetailsServiceImpl userDetailsService;

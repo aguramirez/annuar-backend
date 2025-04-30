@@ -47,7 +47,7 @@ public class Movie {
 
     private String director;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(name = "\"cast\"",columnDefinition = "TEXT")
     private String cast;
 
     private String genre;

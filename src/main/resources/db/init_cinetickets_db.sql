@@ -98,7 +98,7 @@ CREATE TABLE movies (
     release_date DATE,
     end_date DATE,
     director VARCHAR(255),
-    cast TEXT,
+    "cast" TEXT,
     genre VARCHAR(100),
     rating VARCHAR(20),
     poster_url VARCHAR(255),
@@ -557,7 +557,6 @@ BEGIN
         (uuid_generate_v4(), cinema_id, '2x1 Martes', 'Compra una entrada y lleva otra gratis todos los martes', 'PERCENTAGE', 50.00, 'MARTES2X1', NOW() - INTERVAL '30 days', NOW() + INTERVAL '180 days', NULL, 0, TRUE, 'TICKETS', 0.00, NOW(), NOW()),
         (uuid_generate_v4(), cinema_id, 'Descuento Estudiantes', '20% de descuento presentando credencial de estudiante', 'PERCENTAGE', 20.00, 'ESTUDIANTE20', NOW() - INTERVAL '60 days', NOW() + INTERVAL '365 days', NULL, 0, TRUE, 'TICKETS', 0.00, NOW(), NOW()),
         (uuid_generate_v4(), cinema_id, 'Descuento en Combos', '$500 de descuento en combos', 'FIXED_AMOUNT', 500.00, 'COMBO500', NOW(), NOW() + INTERVAL '30 days', 100, 0, TRUE, 'COMBOS', 1000.00, NOW(), NOW());
-
 END $$;
 
 -- Mensaje final

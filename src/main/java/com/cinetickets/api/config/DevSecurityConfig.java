@@ -5,6 +5,8 @@ import com.cinetickets.api.security.UserDetailsServiceImpl;
 import com.cinetickets.api.security.jwt.JwtAuthenticationFilter;
 import com.cinetickets.api.service.mock.MockOAuth2UserService;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -35,6 +37,7 @@ import java.util.List;
 @EnableMethodSecurity
 @RequiredArgsConstructor
 @Profile({"dev", "test"})
+@ConditionalOnProperty(name = "spring.profiles.active", havingValue = "dev")
 public class DevSecurityConfig {
 
     private final UserDetailsServiceImpl userDetailsService;
@@ -93,25 +96,25 @@ public class DevSecurityConfig {
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder() {
+    public PasswordEncoder devPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
+    public AuthenticationManager devAuthenticationManager(AuthenticationConfiguration authConfig) throws Exception {
         return authConfig.getAuthenticationManager();
     }
 
     @Bean
-    public DaoAuthenticationProvider authenticationProvider() {
+    public DaoAuthenticationProvider devAuthenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
         authProvider.setUserDetailsService(userDetailsService);
-        authProvider.setPasswordEncoder(passwordEncoder());
+        authProvider.setPasswordEncoder(devPasswordEncoder());
         return authProvider;
     }
 
     @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
+    public CorsConfigurationSource devCorsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(List.of("http://localhost:3000"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));

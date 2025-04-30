@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
-import java.security.Key;
+import javax.crypto.SecretKey;
 import java.util.Date;
 import java.util.UUID;
 
@@ -16,7 +16,7 @@ import java.util.UUID;
 @Component
 public class JwtTokenProvider {
 
-    private final Key jwtSecret;
+    private final SecretKey jwtSecret;
     private final long jwtExpirationInMs;
     private final String jwtIssuer;
 
@@ -37,14 +37,14 @@ public class JwtTokenProvider {
         Date expiryDate = new Date(now.getTime() + jwtExpirationInMs);
 
         return Jwts.builder()
-                .setSubject(userPrincipal.getId().toString())
-                .setIssuer(jwtIssuer)
-                .setIssuedAt(now)
-                .setExpiration(expiryDate)
+                .subject(userPrincipal.getId().toString())
+                .issuer(jwtIssuer)
+                .issuedAt(now)
+                .expiration(expiryDate)
                 .claim("email", userPrincipal.getEmail())
                 .claim("roles", userPrincipal.getAuthorities().iterator().next().getAuthority())
                 .claim("name", userPrincipal.getFullName())
-                .signWith(jwtSecret, SignatureAlgorithm.HS512)
+                .signWith(jwtSecret)
                 .compact();
     }
 
@@ -53,33 +53,33 @@ public class JwtTokenProvider {
         Date expiryDate = new Date(now.getTime() + jwtExpirationInMs);
 
         return Jwts.builder()
-                .setSubject(userId.toString())
-                .setIssuer(jwtIssuer)
-                .setIssuedAt(now)
-                .setExpiration(expiryDate)
+                .subject(userId.toString())
+                .issuer(jwtIssuer)
+                .issuedAt(now)
+                .expiration(expiryDate)
                 .claim("email", email)
                 .claim("roles", role)
                 .claim("name", fullName)
-                .signWith(jwtSecret, SignatureAlgorithm.HS512)
+                .signWith(jwtSecret)
                 .compact();
     }
 
     public String getUserIdFromJWT(String token) {
-        Claims claims = Jwts.parserBuilder()
-                .setSigningKey(jwtSecret)
+        Claims claims = Jwts.parser()
+                .verifyWith(jwtSecret)
                 .build()
-                .parseClaimsJws(token)
-                .getBody();
+                .parseSignedClaims(token)
+                .getPayload();
 
         return claims.getSubject();
     }
 
     public boolean validateToken(String authToken) {
         try {
-            Jwts.parserBuilder()
-                    .setSigningKey(jwtSecret)
+            Jwts.parser()
+                    .verifyWith(jwtSecret)
                     .build()
-                    .parseClaimsJws(authToken);
+                    .parseSignedClaims(authToken);
             return true;
         } catch (SecurityException ex) {
             log.error("Invalid JWT signature");
