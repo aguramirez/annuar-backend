@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.UuidGenerator;
 
@@ -23,7 +24,9 @@ import java.util.UUID;
 public class Cinema {
 
     @Id
-    @UuidGenerator
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    @Column(updatable = false, nullable = false)
     private UUID id;
 
     @Column(nullable = false)
@@ -65,16 +68,16 @@ public class Cinema {
 
     @OneToMany(mappedBy = "cinema", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Room> rooms = new ArrayList<>();
-    
+
     @OneToMany(mappedBy = "cinema", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<TicketType> ticketTypes = new ArrayList<>();
-    
+
     @OneToMany(mappedBy = "cinema", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<ProductCategory> productCategories = new ArrayList<>();
-    
+
     @OneToMany(mappedBy = "cinema", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Combo> combos = new ArrayList<>();
-    
+
     @OneToMany(mappedBy = "cinema", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Promotion> promotions = new ArrayList<>();
 }

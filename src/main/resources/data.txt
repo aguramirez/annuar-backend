@@ -1,0 +1,112 @@
+-- Insert test data if tables are empty
+
+-- Check if cinema exists
+SET @cinema_count = (SELECT COUNT(*) FROM cinemas);
+SET @insert_cinema = IF(@cinema_count = 0, 1, 0);
+
+-- Insert test cinema if none exists
+SET @cinema_id = UUID();
+INSERT INTO cinemas (id, name, address, city, state, postal_code, phone, email, website, active)
+SELECT 
+    @cinema_id,
+    'Cine Annuar Shopping', 
+    'Av. Principal 123', 
+    'San Miguel de Tucumán', 
+    'Tucumán', 
+    '4000', 
+    '381-1234567', 
+    'info@cineannuar.com', 
+    'https://cineannuar.com', 
+    TRUE
+WHERE @insert_cinema = 1;
+
+-- Insert rooms for the cinema
+SET @room1_id = UUID();
+SET @room2_id = UUID();
+SET @room3_id = UUID();
+
+INSERT INTO rooms (id, cinema_id, name, capacity, room_type, is_accessible, status)
+SELECT 
+    @room1_id,
+    @cinema_id,
+    'Sala 1',
+    100,
+    'REGULAR',
+    TRUE,
+    'ACTIVE'
+WHERE @insert_cinema = 1;
+
+INSERT INTO rooms (id, cinema_id, name, capacity, room_type, is_accessible, status)
+SELECT 
+    @room2_id,
+    @cinema_id,
+    'Sala 2 (3D)',
+    80,
+    'THREE_D',
+    TRUE,
+    'ACTIVE'
+WHERE @insert_cinema = 1;
+
+INSERT INTO rooms (id, cinema_id, name, capacity, room_type, is_accessible, status)
+SELECT 
+    @room3_id,
+    @cinema_id,
+    'Sala VIP',
+    50,
+    'VIP',
+    TRUE,
+    'ACTIVE'
+WHERE @insert_cinema = 1;
+
+-- Insert basic ticket types
+INSERT INTO ticket_types (id, cinema_id, name, description, price, is_active)
+SELECT 
+    UUID(),
+    @cinema_id,
+    'General',
+    'Entrada estándar para todas las funciones',
+    1200.00,
+    TRUE
+WHERE @insert_cinema = 1;
+
+INSERT INTO ticket_types (id, cinema_id, name, description, price, is_active)
+SELECT 
+    UUID(),
+    @cinema_id,
+    'Jubilados/Estudiantes',
+    'Tarifa reducida para jubilados y estudiantes',
+    900.00,
+    TRUE
+WHERE @insert_cinema = 1;
+
+-- Insert sample movies
+SET @movie_count = (SELECT COUNT(*) FROM movies);
+SET @insert_movies = IF(@movie_count = 0, 1, 0);
+
+INSERT INTO movies (id, title, original_title, synopsis, duration_minutes, release_date, director, genre, rating, status)
+SELECT 
+    UUID(),
+    'Dune: Parte Dos',
+    'Dune: Part Two',
+    'Paul Atreides se une a los Fremen y comienza un viaje espiritual y político para vengar a su familia destruida.',
+    166,
+    DATE_SUB(CURRENT_DATE, INTERVAL 30 DAY),
+    'Denis Villeneuve',
+    'Ciencia Ficción, Aventura',
+    '13+',
+    'ACTIVE'
+WHERE @insert_movies = 1;
+
+INSERT INTO movies (id, title, original_title, synopsis, duration_minutes, release_date, director, genre, rating, status)
+SELECT 
+    UUID(),
+    'Deadpool & Wolverine',
+    'Deadpool & Wolverine',
+    'Wade Wilson sale del retiro para unir fuerzas con Wolverine para enfrentar una amenaza común.',
+    127,
+    DATE_SUB(CURRENT_DATE, INTERVAL 15 DAY),
+    'Shawn Levy',
+    'Acción, Comedia',
+    '17+',
+    'ACTIVE'
+WHERE @insert_movies = 1;

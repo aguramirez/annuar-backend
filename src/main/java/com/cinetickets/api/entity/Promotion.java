@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.UuidGenerator;
 
@@ -22,15 +23,18 @@ import java.util.UUID;
 public class Promotion {
 
     @Id
-    @UuidGenerator
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    @Column(updatable = false, nullable = false)
     private UUID id;
-    
+
     // Esta es la relación con Cinema
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cinema_id", nullable = false)
     private Cinema cinema;
-    
-    // Este es el campo para acceso directo al ID del cine sin cargar la entidad completa
+
+    // Este es el campo para acceso directo al ID del cine sin cargar la entidad
+    // completa
     @Column(name = "cinema_id", insertable = false, updatable = false)
     private UUID cinemaId;
 
