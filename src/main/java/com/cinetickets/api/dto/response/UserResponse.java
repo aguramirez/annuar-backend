@@ -17,7 +17,6 @@ public class UserResponse {
     private String firstName;
     private String lastName;
     private String role;
-    private String profileImage;
     private Integer loyaltyPoints;
     private String phone;
 }

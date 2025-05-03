@@ -36,15 +36,6 @@ public class Cinema {
     private String address;
 
     @Column(nullable = false)
-    private String city;
-
-    @Column(nullable = false)
-    private String state;
-
-    @Column(name = "postal_code", nullable = false)
-    private String postalCode;
-
-    @Column(nullable = false)
     private String phone;
 
     @Column(nullable = false)

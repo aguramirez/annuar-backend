@@ -40,7 +40,7 @@ public class OrderDetailsResponse {
     @AllArgsConstructor
     public static class ReservedSeatResponse {
         private UUID id;
-        private String row;
+        private String rowName;
         private String number;
         private String seatType;
         private String ticketType;

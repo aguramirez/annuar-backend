@@ -33,9 +33,6 @@ public class Movie {
     @Column(nullable = false)
     private String title;
 
-    @Column(name = "original_title")
-    private String originalTitle;
-
     @Column(columnDefinition = "TEXT")
     private String synopsis;
 

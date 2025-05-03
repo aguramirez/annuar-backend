@@ -121,7 +121,6 @@ public class MovieServiceImpl implements MovieService {
         return MovieDetailResponse.builder()
                 .id(movie.getId())
                 .title(movie.getTitle())
-                .originalTitle(movie.getOriginalTitle())
                 .synopsis(movie.getSynopsis())
                 .durationMinutes(movie.getDurationMinutes())
                 .releaseDate(movie.getReleaseDate())
@@ -141,7 +140,6 @@ public class MovieServiceImpl implements MovieService {
 
     private void mapMovieRequestToEntity(MovieRequest request, Movie movie) {
         movie.setTitle(request.getTitle());
-        movie.setOriginalTitle(request.getOriginalTitle());
         movie.setSynopsis(request.getSynopsis());
         movie.setDurationMinutes(request.getDurationMinutes());
         movie.setReleaseDate(request.getReleaseDate());

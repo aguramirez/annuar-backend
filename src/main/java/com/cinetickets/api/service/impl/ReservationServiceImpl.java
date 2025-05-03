@@ -256,7 +256,7 @@ public class ReservationServiceImpl implements ReservationService {
                 .map(rs -> ReservationResponse.ReservedSeatDTO.builder()
                         .id(rs.getId())
                         .seatId(rs.getSeat().getId())
-                        .row(rs.getSeat().getRow())
+                        .rowName(rs.getSeat().getRowName())
                         .number(rs.getSeat().getNumber())
                         .ticketType(rs.getTicketType().getName())
                         .price(rs.getPrice())

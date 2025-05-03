@@ -442,7 +442,7 @@ public class OrderServiceImpl implements OrderService {
         List<OrderDetailsResponse.ReservedSeatResponse> reservedSeats = reservation.getReservedSeats().stream()
                 .map(rs -> OrderDetailsResponse.ReservedSeatResponse.builder()
                         .id(rs.getId())
-                        .row(rs.getSeat().getRow())
+                        .rowName(rs.getSeat().getRowName())
                         .number(rs.getSeat().getNumber())
                         .seatType(rs.getSeat().getSeatType().name())
                         .ticketType(rs.getTicketType().getName())

@@ -21,8 +21,6 @@ public class MovieRequest {
     @Size(max = 255, message = "Title cannot exceed 255 characters")
     private String title;
     
-    private String originalTitle;
-    
     @Size(max = 2000, message = "Synopsis cannot exceed 2000 characters")
     private String synopsis;
     

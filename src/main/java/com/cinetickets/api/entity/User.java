@@ -41,9 +41,6 @@ public class User {
 
     private String phone;
 
-    @Column(name = "profile_image")
-    private String profileImage;
-
     @Column(name = "loyalty_points")
     private Integer loyaltyPoints;
 

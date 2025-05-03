@@ -13,6 +13,4 @@ public interface CinemaRepository extends JpaRepository<Cinema, UUID> {
     List<Cinema> findByActiveTrue();
     
     List<Cinema> findByActiveTrueOrderByName();
-    
-    List<Cinema> findByActiveTrueAndCityAndStateOrderByName(String city, String state);
 }

@@ -16,7 +16,6 @@ public class MovieDetailResponse {
     
     private UUID id;
     private String title;
-    private String originalTitle;
     private String synopsis;
     private Integer durationMinutes;
     private LocalDate releaseDate;

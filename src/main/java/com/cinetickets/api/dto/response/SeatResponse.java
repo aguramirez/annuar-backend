@@ -14,7 +14,7 @@ import java.util.UUID;
 public class SeatResponse {
     
     private UUID id;
-    private String row;
+    private String rowName;
     private String number;
     private String seatType;
     private String status;

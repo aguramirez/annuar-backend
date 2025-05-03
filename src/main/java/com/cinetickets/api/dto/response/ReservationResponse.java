@@ -32,7 +32,7 @@ public class ReservationResponse {
     public static class ReservedSeatDTO {
         private UUID id;
         private UUID seatId;
-        private String row;
+        private String rowName;
         private String number;
         private String ticketType;
         private BigDecimal price;

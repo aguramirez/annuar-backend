@@ -83,7 +83,7 @@ public class ShowServiceImpl implements ShowService {
         return show.getRoom().getSeats().stream()
                 .map(seat -> SeatResponse.builder()
                         .id(seat.getId())
-                        .row(seat.getRow())
+                        .rowName(seat.getRowName())
                         .number(seat.getNumber())
                         .seatType(seat.getSeatType().name())
                         .status(seat.getStatus().name())

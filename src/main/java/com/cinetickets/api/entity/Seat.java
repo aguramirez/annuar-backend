@@ -21,7 +21,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Entity
 @Table(name = "seats", uniqueConstraints = {
-        @UniqueConstraint(name = "uk_seats_room_row_number", columnNames = { "room_id", "row", "number" })
+        @UniqueConstraint(name = "uk_seats_room_row_number", columnNames = { "room_id", "row_name", "number" })
 })
 public class Seat {
 
@@ -35,8 +35,8 @@ public class Seat {
     @JoinColumn(name = "room_id", nullable = false)
     private Room room;
 
-    @Column(nullable = false)
-    private String row;
+    @Column(name = "row_name", nullable = false)
+    private String rowName;
 
     @Column(nullable = false)
     private String number;
@@ -61,7 +61,7 @@ public class Seat {
     private List<ReservedSeat> reservations = new ArrayList<>();
 
     public enum SeatType {
-        REGULAR, VIP, ACCESSIBLE, DOUBLE, PREMIUM
+        REGULAR, VIP, ACCESSIBLE
     }
 
     public enum SeatStatus {

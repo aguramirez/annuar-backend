@@ -88,7 +88,6 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                 .email(oAuth2UserInfo.getEmail())
                 .firstName(oAuth2UserInfo.getFirstName())
                 .lastName(oAuth2UserInfo.getLastName())
-                .profileImage(oAuth2UserInfo.getImageUrl())
                 .authProvider(oAuth2UserRequest.getClientRegistration().getRegistrationId())
                 .authProviderId(oAuth2UserInfo.getId())
                 .role(User.UserRole.CUSTOMER)
@@ -106,7 +105,6 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     private User updateExistingUser(User existingUser, OAuth2UserInfo oAuth2UserInfo) {
         existingUser.setFirstName(oAuth2UserInfo.getFirstName());
         existingUser.setLastName(oAuth2UserInfo.getLastName());
-        existingUser.setProfileImage(oAuth2UserInfo.getImageUrl());
         existingUser.setLastLogin(ZonedDateTime.now());
         existingUser.setUpdatedAt(ZonedDateTime.now());
         
