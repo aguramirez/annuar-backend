@@ -30,12 +30,12 @@ public interface OrderRepository extends JpaRepository<Order, UUID> {
 
        @Query("SELECT o FROM Order o WHERE o.reservation.show.room.cinema.id = :cinemaId " +
                      "AND o.createdAt BETWEEN :startDate AND :endDate AND o.status = 'COMPLETED'")
-       List<Order> findCompletedOrdersByCinemaAndDateRange(UUID cinemaId, ZonedDateTime startDate,
+       List<Order> findCompletedOrdersByCinemaAndDateRange(ZonedDateTime startDate,
                      ZonedDateTime endDate);
 
        @Query("SELECT SUM(o.total) FROM Order o WHERE o.reservation.show.room.cinema.id = :cinemaId " +
                      "AND o.createdAt BETWEEN :startDate AND :endDate AND o.status = 'COMPLETED' AND o.paymentStatus = 'PAID'")
-       Optional<BigDecimal> calculateTotalSalesByCinemaAndDateRange(UUID cinemaId, ZonedDateTime startDate,
+       Optional<BigDecimal> calculateTotalSalesByCinemaAndDateRange(ZonedDateTime startDate,
                      ZonedDateTime endDate);
 
        @Query(value = "SELECT DAYOFWEEK(o.created_at) as day_of_week, COUNT(*) as order_count " +
@@ -47,5 +47,5 @@ public interface OrderRepository extends JpaRepository<Order, UUID> {
                      "AND o.created_at BETWEEN :startDate AND :endDate " +
                      "GROUP BY DAYOFWEEK(o.created_at) " +
                      "ORDER BY order_count DESC", nativeQuery = true)
-       List<Object[]> findMostPopularDaysOfWeek(UUID cinemaId, ZonedDateTime startDate, ZonedDateTime endDate);
+       List<Object[]> findMostPopularDaysOfWeek(ZonedDateTime startDate, ZonedDateTime endDate);
 }

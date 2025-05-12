@@ -24,42 +24,37 @@ public class ProductController {
     private final ProductService productService;
 
     /**
-     * Obtiene todos los productos disponibles para un cine
+     * Obtiene todos los productos disponibles
      */
     @GetMapping("/api/products")
     public ResponseEntity<List<ProductResponse>> getAvailableProducts(
-            @RequestParam UUID cinemaId,
             @RequestParam(required = false) UUID categoryId) {
         
         List<ProductResponse> products;
         if (categoryId != null) {
-            products = productService.getProductsByCategory(cinemaId, categoryId);
+            products = productService.getProductsByCategory(categoryId);
         } else {
-            products = productService.getAvailableProducts(cinemaId);
+            products = productService.getAvailableProducts();
         }
         
         return ResponseEntity.ok(products);
     }
 
     /**
-     * Obtiene las categorías de productos para un cine
+     * Obtiene las categorías de productos
      */
     @GetMapping("/api/products/categories")
-    public ResponseEntity<List<ProductResponse.CategoryResponse>> getProductCategories(
-            @RequestParam UUID cinemaId) {
-        
-        List<ProductResponse.CategoryResponse> categories = productService.getProductCategories(cinemaId);
+    public ResponseEntity<List<ProductResponse.CategoryResponse>> getProductCategories() {
+        List<ProductResponse.CategoryResponse> categories = productService.getProductCategories();
         return ResponseEntity.ok(categories);
     }
 
     /**
-     * Obtiene los combos disponibles para un cine
+     * Obtiene los combos disponibles
      */
     @GetMapping("/api/combos")
-    public ResponseEntity<List<ProductResponse.ComboResponse>> getAvailableCombos(
-            @RequestParam UUID cinemaId) {
-        
-        List<ProductResponse.ComboResponse> combos = productService.getAvailableCombos(cinemaId);
+    public ResponseEntity<List<ProductResponse.ComboResponse>> getAvailableCombos() {
+        List<ProductResponse.ComboResponse> combos = productService.getAvailableCombos();
         return ResponseEntity.ok(combos);
     }
 
@@ -68,11 +63,8 @@ public class ProductController {
      */
     @GetMapping("/api/admin/products")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<Page<ProductResponse>> getAllProducts(
-            @RequestParam UUID cinemaId,
-            Pageable pageable) {
-        
-        Page<ProductResponse> products = productService.getAllProducts(cinemaId, pageable);
+    public ResponseEntity<Page<ProductResponse>> getAllProducts(Pageable pageable) {
+        Page<ProductResponse> products = productService.getAllProducts(pageable);
         return ResponseEntity.ok(products);
     }
 
@@ -114,11 +106,8 @@ public class ProductController {
      */
     @GetMapping("/api/admin/combos")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<Page<ProductResponse.ComboResponse>> getAllCombos(
-            @RequestParam UUID cinemaId,
-            Pageable pageable) {
-        
-        Page<ProductResponse.ComboResponse> combos = productService.getAllCombos(cinemaId, pageable);
+    public ResponseEntity<Page<ProductResponse.ComboResponse>> getAllCombos(Pageable pageable) {
+        Page<ProductResponse.ComboResponse> combos = productService.getAllCombos(pageable);
         return ResponseEntity.ok(combos);
     }
 
@@ -160,11 +149,8 @@ public class ProductController {
      */
     @GetMapping("/api/admin/product-categories")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<Page<ProductResponse.CategoryResponse>> getAllProductCategories(
-            @RequestParam UUID cinemaId,
-            Pageable pageable) {
-        
-        Page<ProductResponse.CategoryResponse> categories = productService.getAllProductCategories(cinemaId, pageable);
+    public ResponseEntity<Page<ProductResponse.CategoryResponse>> getAllProductCategories(Pageable pageable) {
+        Page<ProductResponse.CategoryResponse> categories = productService.getAllProductCategories(pageable);
         return ResponseEntity.ok(categories);
     }
     

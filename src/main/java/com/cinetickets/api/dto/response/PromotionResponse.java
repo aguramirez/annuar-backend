@@ -16,7 +16,6 @@ import java.util.UUID;
 public class PromotionResponse {
     
     private UUID id;
-    private UUID cinemaId;
     private String name;
     private String description;
     private String discountType;

@@ -24,13 +24,11 @@ public class PromotionController {
     private final PromotionService promotionService;
 
     /**
-     * Obtiene promociones activas para un cine
+     * Obtiene promociones activas
      */
     @GetMapping("/api/promotions")
-    public ResponseEntity<List<PromotionResponse>> getActivePromotions(
-            @RequestParam UUID cinemaId) {
-        
-        List<PromotionResponse> promotions = promotionService.getActivePromotions(cinemaId);
+    public ResponseEntity<List<PromotionResponse>> getActivePromotions() {
+        List<PromotionResponse> promotions = promotionService.getActivePromotions();
         return ResponseEntity.ok(promotions);
     }
 

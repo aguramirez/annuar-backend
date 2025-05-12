@@ -2,11 +2,9 @@ package com.cinetickets.api.service.impl;
 
 import com.cinetickets.api.dto.request.PromotionRequest;
 import com.cinetickets.api.dto.response.PromotionResponse;
-import com.cinetickets.api.entity.Cinema;
 import com.cinetickets.api.entity.Promotion;
 import com.cinetickets.api.exception.InvalidPromotionException;
 import com.cinetickets.api.exception.ResourceNotFoundException;
-import com.cinetickets.api.repository.CinemaRepository;
 import com.cinetickets.api.repository.PromotionRepository;
 import com.cinetickets.api.service.PromotionService;
 import lombok.RequiredArgsConstructor;
@@ -27,13 +25,16 @@ import java.util.stream.Collectors;
 public class PromotionServiceImpl implements PromotionService {
 
     private final PromotionRepository promotionRepository;
-    private final CinemaRepository cinemaRepository;
+    
+    // ID fijo del cine
+    private final UUID defaultCinemaId = UUID.fromString("3fa85f64-5717-4562-b3fc-2c963f66afa6");
 
     @Override
     @Transactional(readOnly = true)
-    public List<PromotionResponse> getActivePromotions(UUID cinemaId) {
-        List<Promotion> promotions = promotionRepository.findByCinemaIdAndIsActiveTrueAndStartDateBeforeAndEndDateAfter(
-                cinemaId, ZonedDateTime.now(), ZonedDateTime.now());
+    public List<PromotionResponse> getActivePromotions() {
+        ZonedDateTime now = ZonedDateTime.now();
+        List<Promotion> promotions = promotionRepository.findByIsActiveTrueAndStartDateBeforeAndEndDateAfter(
+                now, now);
         
         return promotions.stream()
                 .map(this::mapToPromotionResponse)
@@ -43,10 +44,6 @@ public class PromotionServiceImpl implements PromotionService {
     @Override
     @Transactional
     public UUID createPromotion(PromotionRequest promotionRequest) {
-        // Validar que exista el cine
-        Cinema cinema = cinemaRepository.findById(promotionRequest.getCinemaId())
-                .orElseThrow(() -> new ResourceNotFoundException("Cinema", "id", promotionRequest.getCinemaId()));
-        
         // Validar código único si se proporciona
         if (promotionRequest.getCode() != null && !promotionRequest.getCode().isEmpty()) {
             if (promotionRepository.existsByCode(promotionRequest.getCode())) {
@@ -56,7 +53,7 @@ public class PromotionServiceImpl implements PromotionService {
         
         Promotion promotion = Promotion.builder()
                 .id(UUID.randomUUID())
-                .cinema(cinema)
+                .cinemaId(defaultCinemaId)
                 .name(promotionRequest.getName())
                 .description(promotionRequest.getDescription())
                 .discountType(Promotion.DiscountType.valueOf(promotionRequest.getDiscountType()))
@@ -84,10 +81,6 @@ public class PromotionServiceImpl implements PromotionService {
         Promotion promotion = promotionRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Promotion", "id", id));
         
-        // Validar que exista el cine
-        Cinema cinema = cinemaRepository.findById(promotionRequest.getCinemaId())
-                .orElseThrow(() -> new ResourceNotFoundException("Cinema", "id", promotionRequest.getCinemaId()));
-        
         // Validar código único si se modifica
         if (promotionRequest.getCode() != null && !promotionRequest.getCode().isEmpty() 
                 && !promotionRequest.getCode().equals(promotion.getCode())) {
@@ -96,7 +89,6 @@ public class PromotionServiceImpl implements PromotionService {
             }
         }
         
-        promotion.setCinema(cinema);
         promotion.setName(promotionRequest.getName());
         promotion.setDescription(promotionRequest.getDescription());
         promotion.setDiscountType(Promotion.DiscountType.valueOf(promotionRequest.getDiscountType()));
@@ -233,7 +225,6 @@ public class PromotionServiceImpl implements PromotionService {
     private PromotionResponse mapToPromotionResponse(Promotion promotion) {
         return PromotionResponse.builder()
                 .id(promotion.getId())
-                .cinemaId(promotion.getCinema().getId())
                 .name(promotion.getName())
                 .description(promotion.getDescription())
                 .discountType(promotion.getDiscountType().name())
@@ -248,5 +239,11 @@ public class PromotionServiceImpl implements PromotionService {
                 .minPurchase(promotion.getMinPurchase())
                 .createdAt(promotion.getCreatedAt())
                 .build();
+    }
+
+    @Override
+    public List<PromotionResponse> getActivePromotions(UUID defaultCinemaId) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getActivePromotions'");
     }
 }

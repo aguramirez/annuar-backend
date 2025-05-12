@@ -1,74 +1,22 @@
 package com.cinetickets.api.entity;
 
-import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.UpdateTimestamp;
-import org.hibernate.annotations.UuidGenerator;
-
-import java.time.ZonedDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
-@Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
 @Entity
-@Table(name = "cinemas")
+@Table(name = "cinema_info")
 public class Cinema {
-
     @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(updatable = false, nullable = false)
-    private UUID id;
-
-    @Column(nullable = false)
-    private String name;
-
-    @Column(nullable = false)
-    private String address;
-
-    @Column(nullable = false)
-    private String phone;
-
-    @Column(nullable = false)
-    private String email;
-
-    private String website;
-
-    @Column(name = "logo_url")
-    private String logoUrl;
-
-    @Column(nullable = false)
-    private Boolean active;
-
-    @CreationTimestamp
-    @Column(name = "created_at", nullable = false, updatable = false)
-    private ZonedDateTime createdAt;
-
-    @UpdateTimestamp
-    @Column(name = "updated_at", nullable = false)
-    private ZonedDateTime updatedAt;
-
-    @OneToMany(mappedBy = "cinema", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Room> rooms = new ArrayList<>();
-
-    @OneToMany(mappedBy = "cinema", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<TicketType> ticketTypes = new ArrayList<>();
-
-    @OneToMany(mappedBy = "cinema", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<ProductCategory> productCategories = new ArrayList<>();
-
-    @OneToMany(mappedBy = "cinema", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Combo> combos = new ArrayList<>();
-
-    @OneToMany(mappedBy = "cinema", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Promotion> promotions = new ArrayList<>();
+    private final UUID id = UUID.fromString("3fa85f64-5717-4562-b3fc-2c963f66afa6"); // ID fijo
+    
+    private String name = "Cine Annuar Shopping";
+    private String address = "Av. Annuar Shopping 123";
+    private String city = "San Salvador de Jujuy"; 
+    private String state = "Jujuy";
+    private String phone = "+54 388 123 4567";
+    private String email = "info@cineannuar.com";
+    private String website = "https://cineannuar.com";
 }

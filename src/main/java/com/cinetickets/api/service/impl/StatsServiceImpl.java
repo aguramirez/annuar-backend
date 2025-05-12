@@ -34,16 +34,17 @@ public class StatsServiceImpl implements StatsService {
     private final ProductRepository productRepository;
     private final ComboRepository comboRepository;
 
+    private final UUID defaultCinemaId = UUID.fromString("3fa85f64-5717-4562-b3fc-2c963f66afa6");
+
     @Override
     @Transactional(readOnly = true)
-    public SalesStatsResponse getSalesStats(UUID cinemaId, LocalDate startDate, LocalDate endDate) {
+    public SalesStatsResponse getSalesStats(LocalDate startDate, LocalDate endDate) {
         // Convertir LocalDate a ZonedDateTime para consulta
         ZonedDateTime startDateTime = startDate.atStartOfDay(ZoneId.systemDefault());
         ZonedDateTime endDateTime = endDate.plusDays(1).atStartOfDay(ZoneId.systemDefault());
         
         // Obtener órdenes completadas y pagadas en el período
-        List<Order> orders = orderRepository.findCompletedOrdersByCinemaAndDateRange(
-                cinemaId, startDateTime, endDateTime);
+        List<Order> orders = orderRepository.findCompletedOrdersInDateRange(startDateTime, endDateTime);
         
         // Calcular totales
         BigDecimal totalSales = BigDecimal.ZERO;
@@ -105,7 +106,7 @@ public class StatsServiceImpl implements StatsService {
 
     @Override
     @Transactional(readOnly = true)
-    public AttendanceStatsResponse getAttendanceStats(UUID cinemaId, LocalDate startDate, LocalDate endDate) {
+    public AttendanceStatsResponse getAttendanceStats(LocalDate startDate, LocalDate endDate) {
         // Implementación simplificada para demostración
         return AttendanceStatsResponse.builder()
                 .totalAttendance(1250)
@@ -135,7 +136,7 @@ public class StatsServiceImpl implements StatsService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<MovieStatsResponse> getTopMoviesStats(UUID cinemaId, LocalDate startDate, LocalDate endDate, int limit) {
+    public List<MovieStatsResponse> getTopMoviesStats(LocalDate startDate, LocalDate endDate, int limit) {
         // Implementación simplificada para demostración
         return List.of(
                 MovieStatsResponse.builder()
@@ -159,7 +160,7 @@ public class StatsServiceImpl implements StatsService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<ProductStatsResponse> getTopProductsStats(UUID cinemaId, LocalDate startDate, LocalDate endDate, int limit) {
+    public List<ProductStatsResponse> getTopProductsStats(LocalDate startDate, LocalDate endDate, int limit) {
         // Implementación simplificada para demostración
         return List.of(
                 ProductStatsResponse.builder()
@@ -181,7 +182,7 @@ public class StatsServiceImpl implements StatsService {
 
     @Override
     @Transactional(readOnly = true)
-    public ConversionStatsResponse getConversionStats(UUID cinemaId, LocalDate startDate, LocalDate endDate) {
+    public ConversionStatsResponse getConversionStats(LocalDate startDate, LocalDate endDate) {
         // Implementación simplificada para demostración
         return ConversionStatsResponse.builder()
                 .reservations(320)
@@ -195,7 +196,7 @@ public class StatsServiceImpl implements StatsService {
 
     @Override
     @Transactional(readOnly = true)
-    public TimeAnalysisResponse getTimeAnalysis(UUID cinemaId, LocalDate startDate, LocalDate endDate) {
+    public TimeAnalysisResponse getTimeAnalysis(LocalDate startDate, LocalDate endDate) {
         // Implementación simplificada para demostración
         return TimeAnalysisResponse.builder()
                 .attendanceByDayOfWeek(Map.of(
@@ -222,7 +223,7 @@ public class StatsServiceImpl implements StatsService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<UserStatsResponse> getTopUserStats(UUID cinemaId, LocalDate startDate, LocalDate endDate, int limit) {
+    public List<UserStatsResponse> getTopUserStats(LocalDate startDate, LocalDate endDate, int limit) {
         // Implementación simplificada para demostración
         return List.of(
                 UserStatsResponse.builder()
@@ -248,7 +249,7 @@ public class StatsServiceImpl implements StatsService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<ExportDataResponse> getExportData(UUID cinemaId, LocalDate startDate, LocalDate endDate, String type) {
+    public List<ExportDataResponse> getExportData(LocalDate startDate, LocalDate endDate, String type) {
         // Implementación simplificada para demostración
         List<ExportDataResponse> result = new ArrayList<>();
         

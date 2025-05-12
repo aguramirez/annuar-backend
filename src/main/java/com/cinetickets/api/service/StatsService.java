@@ -15,7 +15,7 @@ public interface StatsService {
      * @param endDate Fecha de fin
      * @return Estadísticas de ventas
      */
-    SalesStatsResponse getSalesStats(UUID cinemaId, LocalDate startDate, LocalDate endDate);
+    SalesStatsResponse getSalesStats(LocalDate startDate, LocalDate endDate);
     
     /**
      * Obtiene estadísticas de asistencia para un cine en un rango de fechas
@@ -24,7 +24,7 @@ public interface StatsService {
      * @param endDate Fecha de fin
      * @return Estadísticas de asistencia
      */
-    AttendanceStatsResponse getAttendanceStats(UUID cinemaId, LocalDate startDate, LocalDate endDate);
+    AttendanceStatsResponse getAttendanceStats(LocalDate startDate, LocalDate endDate);
     
     /**
      * Obtiene estadísticas de las películas más vistas en un rango de fechas
@@ -34,7 +34,7 @@ public interface StatsService {
      * @param limit Límite de resultados
      * @return Lista de estadísticas de películas
      */
-    List<MovieStatsResponse> getTopMoviesStats(UUID cinemaId, LocalDate startDate, LocalDate endDate, int limit);
+    List<MovieStatsResponse> getTopMoviesStats(LocalDate startDate, LocalDate endDate, int limit);
     
     /**
      * Obtiene estadísticas de los productos más vendidos en un rango de fechas
@@ -44,7 +44,7 @@ public interface StatsService {
      * @param limit Límite de resultados
      * @return Lista de estadísticas de productos
      */
-    List<ProductStatsResponse> getTopProductsStats(UUID cinemaId, LocalDate startDate, LocalDate endDate, int limit);
+    List<ProductStatsResponse> getTopProductsStats(LocalDate startDate, LocalDate endDate, int limit);
     
     /**
      * Obtiene estadísticas de conversión de ventas en un rango de fechas
@@ -53,7 +53,7 @@ public interface StatsService {
      * @param endDate Fecha de fin
      * @return Estadísticas de conversión
      */
-    ConversionStatsResponse getConversionStats(UUID cinemaId, LocalDate startDate, LocalDate endDate);
+    ConversionStatsResponse getConversionStats(LocalDate startDate, LocalDate endDate);
     
     /**
      * Obtiene estadísticas de días y horarios más concurridos en un rango de fechas
@@ -62,7 +62,7 @@ public interface StatsService {
      * @param endDate Fecha de fin
      * @return Análisis de tiempos
      */
-    TimeAnalysisResponse getTimeAnalysis(UUID cinemaId, LocalDate startDate, LocalDate endDate);
+    TimeAnalysisResponse getTimeAnalysis(LocalDate startDate, LocalDate endDate);
     
     /**
      * Obtiene estadísticas de los usuarios más frecuentes en un rango de fechas
@@ -72,7 +72,7 @@ public interface StatsService {
      * @param limit Límite de resultados
      * @return Lista de estadísticas de usuarios
      */
-    List<UserStatsResponse> getTopUserStats(UUID cinemaId, LocalDate startDate, LocalDate endDate, int limit);
+    List<UserStatsResponse> getTopUserStats(LocalDate startDate, LocalDate endDate, int limit);
     
     /**
      * Obtiene datos para exportar en un rango de fechas
@@ -82,5 +82,5 @@ public interface StatsService {
      * @param type Tipo de datos a exportar
      * @return Lista de datos para exportar
      */
-    List<ExportDataResponse> getExportData(UUID cinemaId, LocalDate startDate, LocalDate endDate, String type);
+    List<ExportDataResponse> getExportData(LocalDate startDate, LocalDate endDate, String type);
 }

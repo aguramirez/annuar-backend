@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/admin/stats")
@@ -21,28 +20,26 @@ public class StatsController {
     private final StatsService statsService;
 
     /**
-     * Obtiene estadísticas de ventas para un cine
+     * Obtiene estadísticas de ventas
      */
     @GetMapping("/sales")
     public ResponseEntity<SalesStatsResponse> getSalesStats(
-            @RequestParam UUID cinemaId,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
         
-        SalesStatsResponse stats = statsService.getSalesStats(cinemaId, startDate, endDate);
+        SalesStatsResponse stats = statsService.getSalesStats(startDate, endDate);
         return ResponseEntity.ok(stats);
     }
 
     /**
-     * Obtiene estadísticas de asistencia para un cine
+     * Obtiene estadísticas de asistencia
      */
     @GetMapping("/attendance")
     public ResponseEntity<AttendanceStatsResponse> getAttendanceStats(
-            @RequestParam UUID cinemaId,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
         
-        AttendanceStatsResponse stats = statsService.getAttendanceStats(cinemaId, startDate, endDate);
+        AttendanceStatsResponse stats = statsService.getAttendanceStats(startDate, endDate);
         return ResponseEntity.ok(stats);
     }
 
@@ -51,12 +48,11 @@ public class StatsController {
      */
     @GetMapping("/movies")
     public ResponseEntity<List<MovieStatsResponse>> getMovieStats(
-            @RequestParam UUID cinemaId,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
             @RequestParam(defaultValue = "10") int limit) {
         
-        List<MovieStatsResponse> stats = statsService.getTopMoviesStats(cinemaId, startDate, endDate, limit);
+        List<MovieStatsResponse> stats = statsService.getTopMoviesStats(startDate, endDate, limit);
         return ResponseEntity.ok(stats);
     }
 
@@ -65,12 +61,11 @@ public class StatsController {
      */
     @GetMapping("/products")
     public ResponseEntity<List<ProductStatsResponse>> getProductStats(
-            @RequestParam UUID cinemaId,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
             @RequestParam(defaultValue = "10") int limit) {
         
-        List<ProductStatsResponse> stats = statsService.getTopProductsStats(cinemaId, startDate, endDate, limit);
+        List<ProductStatsResponse> stats = statsService.getTopProductsStats(startDate, endDate, limit);
         return ResponseEntity.ok(stats);
     }
 
@@ -79,11 +74,10 @@ public class StatsController {
      */
     @GetMapping("/conversion")
     public ResponseEntity<ConversionStatsResponse> getConversionStats(
-            @RequestParam UUID cinemaId,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
         
-        ConversionStatsResponse stats = statsService.getConversionStats(cinemaId, startDate, endDate);
+        ConversionStatsResponse stats = statsService.getConversionStats(startDate, endDate);
         return ResponseEntity.ok(stats);
     }
 
@@ -92,11 +86,10 @@ public class StatsController {
      */
     @GetMapping("/time-analysis")
     public ResponseEntity<TimeAnalysisResponse> getTimeAnalysis(
-            @RequestParam UUID cinemaId,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
         
-        TimeAnalysisResponse stats = statsService.getTimeAnalysis(cinemaId, startDate, endDate);
+        TimeAnalysisResponse stats = statsService.getTimeAnalysis(startDate, endDate);
         return ResponseEntity.ok(stats);
     }
     
@@ -105,12 +98,11 @@ public class StatsController {
      */
     @GetMapping("/users")
     public ResponseEntity<List<UserStatsResponse>> getTopUsers(
-            @RequestParam UUID cinemaId,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
             @RequestParam(defaultValue = "10") int limit) {
         
-        List<UserStatsResponse> stats = statsService.getTopUserStats(cinemaId, startDate, endDate, limit);
+        List<UserStatsResponse> stats = statsService.getTopUserStats(startDate, endDate, limit);
         return ResponseEntity.ok(stats);
     }
     
@@ -119,12 +111,11 @@ public class StatsController {
      */
     @GetMapping("/export")
     public ResponseEntity<List<ExportDataResponse>> getExportData(
-            @RequestParam UUID cinemaId,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
             @RequestParam String type) {
         
-        List<ExportDataResponse> data = statsService.getExportData(cinemaId, startDate, endDate, type);
+        List<ExportDataResponse> data = statsService.getExportData(startDate, endDate, type);
         return ResponseEntity.ok(data);
     }
 }

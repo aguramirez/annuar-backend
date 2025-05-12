@@ -33,7 +33,6 @@ public class ProductResponse {
     @AllArgsConstructor
     public static class ComboResponse {
         private UUID id;
-        private UUID cinemaId;
         private String name;
         private String description;
         private BigDecimal price;
@@ -61,7 +60,6 @@ public class ProductResponse {
     @AllArgsConstructor
     public static class CategoryResponse {
         private UUID id;
-        private UUID cinemaId;
         private String name;
         private String description;
         private String imageUrl;

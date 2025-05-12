@@ -8,7 +8,6 @@ import com.cinetickets.api.entity.ComboItem;
 import com.cinetickets.api.entity.Product;
 import com.cinetickets.api.entity.ProductCategory;
 import com.cinetickets.api.exception.ResourceNotFoundException;
-import com.cinetickets.api.repository.CinemaRepository;
 import com.cinetickets.api.repository.ComboRepository;
 import com.cinetickets.api.repository.ProductCategoryRepository;
 import com.cinetickets.api.repository.ProductRepository;
@@ -34,15 +33,14 @@ public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
     private final ProductCategoryRepository categoryRepository;
     private final ComboRepository comboRepository;
-    private final CinemaRepository cinemaRepository;
 
     @Override
     @Transactional(readOnly = true)
-    public List<ProductResponse> getAvailableProducts(UUID cinemaId) {
-        List<Product> products = productRepository.findByCategoryCinemaIdAndIsActiveTrue(cinemaId);
-        return products.stream()
-                .map(this::mapToProductResponse)
-                .collect(Collectors.toList());
+    public List<ProductResponse> getAvailableProducts() {
+        List<Product> products = productRepository.findByIsActiveTrue();
+    return products.stream()
+            .map(this::mapToProductResponse)
+            .collect(Collectors.toList());
     }
 
     @Override

@@ -14,7 +14,7 @@ public interface PromotionService {
      * @param cinemaId ID del cine
      * @return Lista de promociones
      */
-    List<PromotionResponse> getActivePromotions(UUID cinemaId);
+    List<PromotionResponse> getActivePromotions();
     
     /**
      * Crea una nueva promoción

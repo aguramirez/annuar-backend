@@ -48,9 +48,6 @@ public class ProductRequest {
     @AllArgsConstructor
     public static class ComboRequest {
         
-        @NotNull(message = "Cinema ID is required")
-        private UUID cinemaId;
-        
         @NotBlank(message = "Name is required")
         private String name;
         
@@ -94,9 +91,6 @@ public class ProductRequest {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class CategoryRequest {
-        
-        @NotNull(message = "Cinema ID is required")
-        private UUID cinemaId;
         
         @NotBlank(message = "Name is required")
         private String name;

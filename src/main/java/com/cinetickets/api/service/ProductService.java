@@ -15,7 +15,7 @@ public interface ProductService {
      * @param cinemaId ID del cine
      * @return Lista de productos
      */
-    List<ProductResponse> getAvailableProducts(UUID cinemaId);
+    List<ProductResponse> getAvailableProducts();
     
     /**
      * Obtiene productos por categoría para un cine
@@ -23,21 +23,21 @@ public interface ProductService {
      * @param categoryId ID de la categoría
      * @return Lista de productos
      */
-    List<ProductResponse> getProductsByCategory(UUID cinemaId, UUID categoryId);
+    List<ProductResponse> getProductsByCategory(UUID categoryId);
     
     /**
      * Obtiene todas las categorías de productos para un cine
      * @param cinemaId ID del cine
      * @return Lista de categorías
      */
-    List<ProductResponse.CategoryResponse> getProductCategories(UUID cinemaId);
+    List<ProductResponse.CategoryResponse> getProductCategories();
     
     /**
      * Obtiene todos los combos disponibles para un cine
      * @param cinemaId ID del cine
      * @return Lista de combos
      */
-    List<ProductResponse.ComboResponse> getAvailableCombos(UUID cinemaId);
+    List<ProductResponse.ComboResponse> getAvailableCombos();
     
     /**
      * Obtiene todos los productos de un cine (admin)
@@ -45,7 +45,7 @@ public interface ProductService {
      * @param pageable Configuración de paginación
      * @return Página de productos
      */
-    Page<ProductResponse> getAllProducts(UUID cinemaId, Pageable pageable);
+    Page<ProductResponse> getAllProducts(Pageable pageable);
     
     /**
      * Crea un nuevo producto
@@ -73,7 +73,7 @@ public interface ProductService {
      * @param pageable Configuración de paginación
      * @return Página de combos
      */
-    Page<ProductResponse.ComboResponse> getAllCombos(UUID cinemaId, Pageable pageable);
+    Page<ProductResponse.ComboResponse> getAllCombos(Pageable pageable);
     
     /**
      * Crea un nuevo combo
@@ -101,7 +101,7 @@ public interface ProductService {
      * @param pageable Configuración de paginación
      * @return Página de categorías
      */
-    Page<ProductResponse.CategoryResponse> getAllProductCategories(UUID cinemaId, Pageable pageable);
+    Page<ProductResponse.CategoryResponse> getAllProductCategories(Pageable pageable);
     
     /**
      * Crea una nueva categoría de productos

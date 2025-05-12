@@ -16,8 +16,7 @@ public interface PromotionRepository extends JpaRepository<Promotion, UUID> {
     
     boolean existsByCode(String code);
     
-    List<Promotion> findByCinemaIdAndIsActiveTrue(UUID cinemaId);
-    
-    List<Promotion> findByCinemaIdAndIsActiveTrueAndStartDateBeforeAndEndDateAfter(
-            UUID cinemaId, ZonedDateTime now, ZonedDateTime now2);
+    List<Promotion> findByIsActiveTrue();
+    List<Promotion> findByIsActiveTrueAndStartDateBeforeAndEndDateAfter(
+            ZonedDateTime now, ZonedDateTime now2);
 }

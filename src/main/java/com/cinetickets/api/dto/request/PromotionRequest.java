@@ -10,16 +10,12 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
-import java.util.UUID;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class PromotionRequest {
-    
-    @NotNull(message = "Cinema ID is required")
-    private UUID cinemaId;
     
     @NotBlank(message = "Name is required")
     private String name;
